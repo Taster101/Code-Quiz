@@ -7,6 +7,9 @@ var answerState = document.querySelector("#qStatus");
 startBtn.addEventListener("click",startQuiz);
 nextbtn.addEventListener("click",nextQuestion)
 answerState.id = "hide"
+var once = {
+    once: true
+}
 var questions = [ 
     {
         question: " Commonly used data types do not include?",
@@ -66,22 +69,24 @@ function showQuestion(){
     const button = document.createElement("button");
     button.addEventListener('click',function(e) {
         
-        if (this.value == true ){
+        if (this.value == "true" ){
             answerState.innerHTML = "Correct";
+            resetState()
             
         } else {
             answerState.innerHTML = "Incorrect";
+            resetState()
         }
          answerState.id = "qStatus"
 
 
-    })
+    }, once)
     button.innerHTML = answer.text;
     button.classList.add("btn");
     button.value = answer.correct;
     console.log(button.value)
     answerButton.appendChild(button);
-
+console.log(answerButton.firstChild)
     
 
    
