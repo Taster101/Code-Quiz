@@ -1,9 +1,12 @@
 var startBtn = document.querySelector("#start");
 var questionElement = document.querySelector("#question");
 var timer = document.querySelector("#Timer")
-var nextbtn = document.querySelector("#next");
+var nextbtn = document.querySelector('button[name="nextB"] ');
 var answerButton = document.querySelector("#answer-buttons");
+var answerState = document.querySelector("#qStatus");
 startBtn.addEventListener("click",startQuiz);
+nextbtn.addEventListener("click",nextQuestion)
+answerState.id = "hide"
 var questions = [ 
     {
         question: " Commonly used data types do not include?",
@@ -12,10 +15,7 @@ var questions = [
             {text: "Booleans" , correct: false},
             {text: "numbers" , correct: false},
             {text: "Strings" , correct: false},
-            
-
         ]
-
     },
     {
         question: "The condition of a if/else statement is encolsed in ___?",
@@ -25,7 +25,6 @@ var questions = [
             {text: "parenthesis" , correct: true},
             {text: "square brakets" , correct: false},
         ]
-
     },
     {
         question: "Arrays in javascript can be used to store ___?",
@@ -35,53 +34,67 @@ var questions = [
             {text: "booleans ", correct: false},
             {text: "All of the above" , correct: true},
         ]
-
     }
-
-   
 ]
 var currentQindex = 0;
 var score = 0;
 var seconds = 60;
+
+
 function startQuiz(){
     currentQindex = 0;
     score = 0;
     nextbtn.innerHTML = "Next";
+    nextbtn.id = "show"
     showQuestion();
     setInterval(timers,1000);
-    //console.log("hit")
-    console.log (seconds)
+    
 };
 
 
 function showQuestion(){
     resetState();
+    answerState.id = "hide"
+    startBtn.id = "hide"
     var currentQuestion = questions[currentQindex];
     var questionNo = currentQindex + 1;
-    startBtn.style.display= 'none';
+   
+    questionElement.innerHTML =  currentQuestion.question;
     
-    questionElement.innerHTML = questionNo + " . " + currentQuestion.question;
 
   currentQuestion.answers.forEach(answer => {
     const button = document.createElement("button");
+    button.addEventListener('click',function(e) {
+        
+        if (this.value == true ){
+            answerState.innerHTML = "Correct";
+            
+        } else {
+            answerState.innerHTML = "Incorrect";
+        }
+         answerState.id = "qStatus"
+
+
+    })
     button.innerHTML = answer.text;
     button.classList.add("btn");
+    button.value = answer.correct;
+    console.log(button.value)
     answerButton.appendChild(button);
-    console.log(answer.text);
-    console.log(button)
-  });
+
+    
+
+   
+
+
+
+
+  })};
   
 
 
-
-
-
-
-
-
-}
 function resetState(){
-    nextbtn.style.display ="none";
+    
     while(answerButton.firstChild){
         answerButton.removeChild(answerButton.firstChild);
     }
@@ -101,3 +114,17 @@ var timers = function timer1(){
         
     }
 };
+
+
+function nextQuestion(){
+    currentQindex = currentQindex + 1;
+    showQuestion()
+    
+
+    
+}
+
+// function userAnswer(){
+//     if 
+
+// }

@@ -13,7 +13,7 @@ header {
     background-color: blue;
     width: 90%; 
     max-width: 600px;
-    margin: 340px auto 0;
+    margin: 250px auto 0;
     padding: 30px;
     border-bottom: 1px solid #333;
     padding-bottom: 30px;
@@ -29,6 +29,18 @@ header {
 
 }
 
-#next{
-     display: none; 
+#show{
+     visibility: visible;
+}
+
+#hide {
+    visibility: hidden;
+}
+#qStatus {
+    text-shadow: #333;
+    font-size: 45px;
+    text-align: center;
+    margin: 20px;
+    
+
 }
