@@ -4,6 +4,8 @@ var timer = document.querySelector("#Timer")
 var nextbtn = document.querySelector('button[name="nextB"] ');
 var answerButton = document.querySelector("#answer-buttons");
 var answerState = document.querySelector("#qStatus");
+let questionCount = document.querySelector(".questionCount")
+let userInput = document.querySelector(".userInfo")
 startBtn.addEventListener("click",startQuiz);
 nextbtn.addEventListener("click",nextQuestion)
 answerState.id = "hide"
@@ -43,24 +45,27 @@ var currentQindex = 0;
 var score = 0;
 var seconds = 60;
 
+let  timer2 = setInterval(timers,1000)
 
-function startQuiz(){
-    currentQindex = 0;
+    function startQuiz(){
+        currentQindex = 0;
     score = 0;
     nextbtn.innerHTML = "Next";
-    nextbtn.id = "show"
+    
     showQuestion();
-    setInterval(timers,1000);
+    //setInterval(timers,1000);
     
 };
-
+ 
 
 function showQuestion(){
+    
     resetState();
+    
     answerState.id = "hide"
     startBtn.id = "hide"
     var currentQuestion = questions[currentQindex];
-    var questionNo = currentQindex + 1;
+    
    
     questionElement.innerHTML =  currentQuestion.question;
     
@@ -68,14 +73,17 @@ function showQuestion(){
   currentQuestion.answers.forEach(answer => {
     const button = document.createElement("button");
     button.addEventListener('click',function(e) {
-        
+        clearInterval(timer2)
         if (this.value == "true" ){
             answerState.innerHTML = "Correct";
             resetState()
+            score++;
+            nextbtn.id = "show"
             
         } else {
             answerState.innerHTML = "Incorrect";
             resetState()
+            nextbtn.id = "show"
         }
          answerState.id = "qStatus"
 
@@ -84,9 +92,9 @@ function showQuestion(){
     button.innerHTML = answer.text;
     button.classList.add("btn");
     button.value = answer.correct;
-    console.log(button.value)
+    
     answerButton.appendChild(button);
-console.log(answerButton.firstChild)
+
     
 
    
@@ -96,10 +104,13 @@ console.log(answerButton.firstChild)
 
   })};
   
-
+function resetGame(){
+    score = 0;
+    currentQindex = 0;
+}
 
 function resetState(){
-    
+    seconds = 60;
     while(answerButton.firstChild){
         answerButton.removeChild(answerButton.firstChild);
     }
@@ -115,19 +126,37 @@ var timers = function timer1(){
     timer.innerHTML= "Timer: " + seconds;}
     else if (seconds == 0 ){
         alert("times up");
-        console.log(seconds)
+        
         
     }
 };
 
+function endgame(){
+    endScore =  (score / questions.length * 100).toFixed(2)
+    answerState.innerHTML = `You scored: ${endScore}%`;
+    nextbtn.id = "hide"
+    questionElement.id = "hide";
+    userInput.id = "show";
+    questionCount.id =  "hide"
+    
 
+}
 function nextQuestion(){
     currentQindex = currentQindex + 1;
+    questionCount.innerHTML = `${currentQindex} / ${questions.length}  `
+   if (currentQindex < questions.length){
+
     showQuestion()
-    
+   } else {
+    endgame()
+   }
 
     
 }
+
+
+let userScore = [];
+
 
 // function userAnswer(){
 //     if 
