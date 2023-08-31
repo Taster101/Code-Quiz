@@ -47,7 +47,7 @@ var questions = [
 var currentQindex = 0;
 var score = 0;
 var seconds = 60;
-
+var qTrack = currentQindex + 1
 
 
     function startQuiz(){
@@ -57,7 +57,7 @@ var seconds = 60;
     questionElement.id = "show";
     showQuestion();
     setInterval(timers,1000);
-    
+    questionCount.innerHTML = `${currentQindex + 1} / ${questions.length}`
     
 };
  
@@ -80,12 +80,14 @@ function showQuestion(){
        //clearInterval(startQuiz)
         if (this.value == "true" ){
             answerState.innerHTML = "Correct";
+            answerState.className = "correct"
             resetState()
             score++;
             nextbtn.id = "show"
             
         } else {
             answerState.innerHTML = "Incorrect";
+            answerState.className = "incorrect"
             resetState()
             nextbtn.id = "show"
         }
@@ -137,6 +139,7 @@ var timers = function timer1(){
 
 function endgame(){
     endScore =  (score / questions.length * 100).toFixed(2)
+    answerState.className = "correct"
     answerState.innerHTML = `You scored: ${endScore}%`;
     nextbtn.id = "hide"
     questionElement.id = "hide";
@@ -150,7 +153,7 @@ function endgame(){
 }
 function nextQuestion(){
     currentQindex = currentQindex + 1;
-    questionCount.innerHTML = `${currentQindex} / ${questions.length}  `
+    questionCount.innerHTML = `${currentQindex + 1} / ${questions.length}`
    if (currentQindex < questions.length){
 
     showQuestion()
