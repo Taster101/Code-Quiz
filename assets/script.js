@@ -6,8 +6,11 @@ var answerButton = document.querySelector("#answer-buttons");
 var answerState = document.querySelector("#qStatus");
 let questionCount = document.querySelector(".questionCount")
 let userInput = document.querySelector(".userInfo")
+let restartBtn = document.querySelector("#restart")
 startBtn.addEventListener("click",startQuiz);
 nextbtn.addEventListener("click",nextQuestion)
+restartBtn.addEventListener("click",restart)
+
 answerState.id = "hide"
 var once = {
     once: true
@@ -45,15 +48,16 @@ var currentQindex = 0;
 var score = 0;
 var seconds = 60;
 
-let  timer2 = setInterval(timers,1000)
+
 
     function startQuiz(){
         currentQindex = 0;
     score = 0;
     nextbtn.innerHTML = "Next";
-    
+    questionElement.id = "show";
     showQuestion();
-    //setInterval(timers,1000);
+    setInterval(timers,1000);
+    
     
 };
  
@@ -73,7 +77,7 @@ function showQuestion(){
   currentQuestion.answers.forEach(answer => {
     const button = document.createElement("button");
     button.addEventListener('click',function(e) {
-        clearInterval(timer2)
+       //clearInterval(startQuiz)
         if (this.value == "true" ){
             answerState.innerHTML = "Correct";
             resetState()
@@ -138,7 +142,10 @@ function endgame(){
     questionElement.id = "hide";
     userInput.id = "show";
     questionCount.id =  "hide"
-    
+    submit.id= "show";
+    restartBtn.id = "show";
+    document.getElementById('letters').id = "letters"
+   
 
 }
 function nextQuestion(){
@@ -155,9 +162,46 @@ function nextQuestion(){
 }
 
 
-let userScore = [];
+let userScores = [];
 
 
+
+
+let addScore = (ev) => {
+    ev.preventDefault()
+    let highScore = {
+        date: Date.now(),
+        intial: document.getElementById('letters').value,
+        score:  (score / questions.length * 100).toFixed(2)   
+    }
+    console.log(highScore)
+
+     userScores.push(highScore);
+     console.log(userScores)
+     localStorage.setItem('Score List',JSON.stringify(userScores))
+     submit.id = "hide"
+}
+let submit = document.querySelector("#submit")
+submit.addEventListener('click',addScore) 
+
+
+function restart(ev){
+    
+    submit.id= "hide";
+    restartBtn.id = "hide";
+   document.getElementById('letters').id = "hide",
+    startQuiz()
+
+
+
+
+
+
+
+
+}
+
+///localStirage.setItem
 // function userAnswer(){
 //     if 
 
